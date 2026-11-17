@@ -1,0 +1,77 @@
+/* ---------- Home hero slider (matches client demo) ---------- */
+.hslider { position: relative; overflow: hidden; color: #fff; background: var(--deep); min-height: clamp(600px, 86vh, 800px); }
+.hslide { position: absolute; inset: 0; opacity: 0; visibility: hidden; transition: opacity 1s ease, visibility 0s linear 1s; }
+.hslide.is-on { opacity: 1; visibility: visible; transition: opacity 1s ease, visibility 0s; z-index: 1; }
+.hslide img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; transform: scale(1.02); }
+.hslide.is-on img { animation: hs-kenburns 9s ease-out forwards; }
+.hslide::after { content: ''; position: absolute; inset: 0; background:
+  linear-gradient(90deg, rgba(7,19,48,.9) 0%, rgba(7,19,48,.66) 45%, rgba(7,19,48,.14) 100%),
+  linear-gradient(0deg, rgba(7,19,48,.8) 0%, transparent 42%); }
+.hslide__inner { position: relative; z-index: 2; height: 100%; display: flex; align-items: center; padding: 80px 0 170px; }
+.hslide__copy { max-width: 760px; }
+.hslider .eyebrow { color: var(--green); }
+.hslide__title { font-size: clamp(40px, 6vw, 78px); line-height: 1.07; letter-spacing: -.03em; font-weight: 600; color: #fff; }
+.hslide__copy .hero__lead { max-width: 34em; }
+
+/* copy rises in with each slide */
+.hslide__copy > * { opacity: 0; transform: translateY(18px); }
+.hslide.is-on .hslide__copy > * { animation: hs-rise .8s cubic-bezier(.2,.7,.2,1) forwards; }
+.hslide.is-on .hslide__copy > :nth-child(2) { animation-delay: .08s; }
+.hslide.is-on .hslide__copy > :nth-child(3) { animation-delay: .16s; }
+.hslide.is-on .hslide__copy > :nth-child(4) { animation-delay: .24s; }
+.hslide.is-on .hslide__copy > :nth-child(5) { animation-delay: .32s; }
+
+/* progress tabs */
+.hslider__tabs { position: absolute; left: 0; right: 0; bottom: 0; z-index: 5; }
+.hslider__tabgrid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 20px; padding-bottom: 28px; }
+.hstab { background: none; border: 0; padding: 16px 0 0; text-align: left; color: rgba(255,255,255,.6); display: grid; gap: 6px; min-width: 0; transition: color .25s; }
+.hstab:hover, .hstab.is-on { color: #fff; }
+.hstab__bar { display: block; height: 3px; margin-bottom: 8px; border-radius: 3px; overflow: hidden; background: rgba(255,255,255,.22); }
+.hstab__bar i { display: block; height: 100%; width: 0; background: var(--green); }
+.hstab.is-on .hstab__bar i { animation: hs-fill 7s linear forwards; }
+.hstab.is-done .hstab__bar i { width: 100%; }
+.hslider.is-paused .hstab.is-on .hstab__bar i, .hslider.is-paused .hslide.is-on img { animation-play-state: paused; }
+.hstab b { font: 600 16px var(--display); display: block; }
+.hstab > span:last-child { font-size: 13.5px; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+@keyframes hs-kenburns { from { transform: scale(1.02); } to { transform: scale(1.12); } }
+@keyframes hs-fill { to { width: 100%; } }
+@keyframes hs-rise { to { opacity: 1; transform: none; } }
+
+@media (max-width: 900px) {
+  .hslider { min-height: 640px; }
+  .hslide__inner { padding: 56px 0 150px; }
+  .hslider__tabgrid { gap: 10px; }
+  .hstab b { font-size: 13px; }
+  .hstab > span:last-child { display: none; }
+}
+@media (max-width: 600px) {
+  .hslider { min-height: 680px; }
+  .hslide::after { background: linear-gradient(rgba(7,19,48,.72), rgba(7,19,48,.9)); }
+  .hslide__inner { align-items: flex-start; padding: 48px 0 120px; }
+  .hslide__title { font-size: clamp(34px, 10vw, 44px); }
+  .hslider__tabgrid { gap: 6px; padding-bottom: 20px; }
+  .hstab { padding-top: 10px; }
+  .hstab b { font-size: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hslide__copy > * { opacity: 1; transform: none; }
+  .hstab.is-on .hstab__bar i { width: 100%; }
+}
+
+/* very small phones (iPhone SE 1st gen, 320px): give the longest slide room above the tabs */
+@media (max-width: 360px) {
+  .hslider { min-height: 740px; }
+}
+/* phones in landscape (iPhone 13: 844x390, 16 Pro Max: 956x440): compact hero */
+@media (max-height: 500px) and (orientation: landscape) {
+  .hslider { min-height: 420px; }
+  .hslide__inner { align-items: flex-start; padding: 28px 0 110px; }
+  .hslide__title { font-size: clamp(30px, 5vw, 44px); }
+  .hslider .hero__ar { font-size: 17px; margin-top: 8px; }
+  .hslider .hero__lead { font-size: 15.5px; margin-top: 10px; max-width: 46em; }
+  .hslider .hero__actions { margin-top: 16px; }
+  .hslider .hero__actions .btn { flex: 0 0 auto; padding: 11px 20px; font-size: 14.5px; }
+  .hslider__tabgrid { padding-bottom: 14px; }
+  .hstab > span:last-child { display: none; }
+}
